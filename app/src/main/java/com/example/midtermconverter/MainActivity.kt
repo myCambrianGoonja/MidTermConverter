@@ -7,6 +7,10 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.example.midtermconverter.databinding.ActivityMainBinding
 
+/* Enums for the conversion for values.
+ * The list of values for drop-down and
+ * conversion is taken from here.
+ */
 enum class ConversionType(val label: String, val factor: Double) {
     KM_TO_MI("Kilometers to Miles", 0.621371),
     MI_TO_KM("Miles to Kilometers", 1.60934),
@@ -33,33 +37,36 @@ class MainActivity : AppCompatActivity() {
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
+        // Setup the spinner for selecting the conversion type
         setupSpinner()
+
+        // Setup the calculate button
         setupCalculateButton()
     }
 
+    /*
+     * Setup the spinner with conversion types
+     */
     private fun setupSpinner() {
         val conversionTypes = ConversionType.values().map { it.label }
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, conversionTypes)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         viewBinding.originalUnit.adapter = adapter
-
-        viewBinding.originalUnit.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                // Handle the selected conversion type here
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Handle case when nothing is selected
-            }
-        }
     }
 
+    /*
+     * Setup the calculate button click listener
+     */
     private fun setupCalculateButton() {
         viewBinding.calculateButton.setOnClickListener {
+            // Get the selected conversion type
             val selectedConversionType = ConversionType.values()[viewBinding.originalUnit.selectedItemPosition]
+
+            // Get the original value from the input field
             val originalValue = viewBinding.originalValue.text.toString().toDoubleOrNull()
 
             if (originalValue != null) {
+                // Perform the conversion calculation
                 val result = originalValue * selectedConversionType.factor
                 viewBinding.resultValue.text = "Result: $result"
             } else {

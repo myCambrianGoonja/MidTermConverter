@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MidTermConverter</string>
+    <string name="convert_to">Converting unit:</string>
+    <string name="calculate">Calculate</string>
+    <string name="app_title">Converting Values</string>
+    <string name="original_value_text">Enter a value</string>
 </resources>
